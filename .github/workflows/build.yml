@@ -21,7 +21,7 @@ jobs:
       -
         uses: docker/login-action@v1
         with:
-          username: dennybaa
+          username: zksyncrobot
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       -
         uses: oprypin/find-latest-tag@v1
