@@ -24,19 +24,16 @@ jobs:
       -
         name: env
         run: |
-          ## Version provided by tag
           latest=${{ steps.latest.outputs.tag }}; latest=${latest#v}
-          echo "latestRunnerVersion='${latest}'" >> ${GITHUB_ENV}
+          echo "::set-output name=runnerVersion::${latest}"
 
-      - run: echo $latestRunnerVersion
-
-      ## Rebuilding previous runners (older tags) is not required,
-      ## thus we always push the latest runner only
-      # -
-      #   name: Build and push
-      #   uses: docker/build-push-action@v2
-      #   with:
-      #     context: .
-      #     push: false
-      #     tags: matter-labs/github-actions-runner
-
+      # When building we always use the latest runner version available
+      -
+        name: Build and push
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          push: false
+          tags: matter-labs/github-actions-runner
+          build-args: |
+            RUNNER_VERSION=${{ steps.env.outputs.runnerVersion }}
