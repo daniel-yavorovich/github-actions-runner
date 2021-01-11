@@ -19,7 +19,7 @@ jobs:
         uses: oprypin/find-latest-tag@v1
         with:
           repository: dysnix/github-actions-runner
-          releases-only: false
+          prefix: v
         id: latest
       -
         name: env
