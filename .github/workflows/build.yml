@@ -27,15 +27,13 @@ jobs:
           latest=${{ steps.latest.outputs.tag }}; latest=${latest#v}
           echo "::set-output name=runnerVersion::${latest}"
 
-      - run: |
-          echo ${{ steps.env.outputs.runnerVersion }}
-      # # When building we always use the latest runner version available
-      # -
-      #   name: Build and push
-      #   uses: docker/build-push-action@v2
-      #   with:
-      #     context: .
-      #     push: false
-      #     tags: matter-labs/github-actions-runner
-      #     build-args: |
-      #       RUNNER_VERSION=${{ steps.env.outputs.runnerVersion }}
+      # When building we always use the latest runner version available
+      -
+        name: Build and push
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          push: false
+          tags: matter-labs/github-actions-runner
+          build-args: |
+            RUNNER_VERSION=${{ steps.env.outputs.runnerVersion }}
