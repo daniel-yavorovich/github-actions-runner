@@ -1,0 +1,41 @@
+name: Docker Build and Push
+on: [push, pull_request]
+
+jobs:
+  build:
+    name: Build Image
+    runs-on: ubuntu-20.04
+    steps:
+      -
+        uses: actions/checkout@v2
+      -
+        uses: docker/setup-buildx-action@v1
+      # -
+      #   uses: docker/login-action@v1
+      #   with:
+      #     username: auserid
+      #     password: ${{ secrets.DOCKERHUB_TOKEN }}
+      -
+        uses: oprypin/find-latest-tag@v1
+        with:
+          repository: dysnix/github-actions-runner
+        id: latest
+      -
+        name: env
+        run: |
+          ## Version provided by tag
+          latest=${{ steps.latest.outputs.tag }}; latest=${latest#v}
+          echo "latestRunnerVersion='${latest}'" >> ${GITHUB_ENV}
+
+      - run: echo $latestRunnerVersion
+
+      ## Rebuilding previous runners (older tags) is not required,
+      ## thus we always push the latest runner only
+      # -
+      #   name: Build and push
+      #   uses: docker/build-push-action@v2
+      #   with:
+      #     context: .
+      #     push: false
+      #     tags: matter-labs/github-actions-runner
+
