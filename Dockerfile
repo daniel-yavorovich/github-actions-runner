@@ -2,7 +2,7 @@ FROM dysnix/github-actions-runner:onbuild
 
 ENV SOLC_VER=0.5.17 \
     SOLC_SUM=c35ce7a4d3ffa5747c178b1e24c8541b2e5d8a82c1db3719eb4433a1f19e16f3 \
-    VENVS_ADDITIONAL="build-essential rust gcloud"
+    VENVS_ADDITIONAL="build-essential rust google-cloud-sdk"
 
 ## required development tools and dependencies
 RUN apt-get -y update && apt-get -y install \
@@ -22,6 +22,3 @@ RUN apt-get -y update && \
     # clean up \
     apt-get -y clean && \
     rm -rf /var/cache/apt /var/lib/apt/lists/* /tmp/* /var/tmp/*
-
-# cargo install --version=0.2.0 sqlx-cli
-# cargo install diesel_cli --no-default-features --features postgres
